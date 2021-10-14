@@ -7,19 +7,28 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.beans.factory.annotation.Value;
 
 
 @Configuration
 @EnableJms
 public class ArtemisConfig {
 
+    @Value("${ARTEMIS_BROKER_URL}")
+    private String brokerURL;
+    
+    @Value("${ARTEMIS_USER_NAME}")
+    private String username;
+    
+    @Value("${ARTEMIS_USER_PASSWORD}")
+    private String password;
 
 
     @Bean
     public ActiveMQConnectionFactory artemisConnectionFactory() {
-        ActiveMQConnectionFactory artemisConnectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
-        artemisConnectionFactory.setUser("user");
-        artemisConnectionFactory.setPassword("password");
+        ActiveMQConnectionFactory artemisConnectionFactory = new ActiveMQConnectionFactory(brokerURL);
+        artemisConnectionFactory.setUser(username);
+        artemisConnectionFactory.setPassword(password);
         return artemisConnectionFactory;
     }
 
