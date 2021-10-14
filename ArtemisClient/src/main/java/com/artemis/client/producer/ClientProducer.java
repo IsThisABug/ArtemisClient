@@ -13,7 +13,8 @@ public class ClientProducer {
     @Autowired
     private JmsTemplate jmsTemplate;
 
-    @Scheduled(cron = "0/135 * * * * ?")
+    //messages are published every minute
+    @Scheduled(cron = "0/60 * * * * ?")
     public void publishMessage() {
         jmsTemplate.convertAndSend(TOPIC, "Test message");
         System.out.println("Message sent to " + TOPIC);
